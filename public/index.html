@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>LLM Gateway — Test Console</title>
+
+  <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+  <div class="wrap">
+
+    <!-- Header -->
+    <header>
+      <h1>LLM Gateway</h1>
+      <p class="subtitle">
+        Minimal test console for the LLM Gateway
+      </p>
+    </header>
+
+
+    <section class="card">
+
+      <h2>Chat Completion</h2>
+
+      <label for="apiKey">
+        Virtual API Key
+      </label>
+
+      <input
+        type="password"
+        id="apiKey"
+        placeholder="sk-gw-..."
+        autocomplete="off"
+      >
+
+
+      <label for="message">
+        Message
+      </label>
+
+      <textarea
+        id="message"
+        rows="4"
+        placeholder="Enter a message for the model..."
+      >Hello!</textarea>
+
+
+      <button
+        id="sendBtn"
+        type="button"
+      >
+        Send Request
+      </button>
+
+
+      <div
+        id="chatStatus"
+        class="status"
+      ></div>
+
+
+      <pre
+        id="chatResult"
+        class="result"
+      ></pre>
+
+    </section>
+
+    <section class="card">
+
+      <h2>Usage for This Key</h2>
+
+      <p>
+        View token usage, remaining budget,
+        request count, and estimated cost.
+      </p>
+
+
+      <button
+        id="usageBtn"
+        type="button"
+      >
+        Check Usage
+      </button>
+
+
+      <div
+        id="usageStatus"
+        class="status"
+      ></div>
+
+
+      <pre
+        id="usageResult"
+        class="result"
+      ></pre>
+
+    </section>
+
+
+    <section class="card">
+
+      <h2>Create Virtual Key (Admin)</h2>
+
+
+      <label for="adminSecret">
+        Admin Secret
+      </label>
+
+      <input
+        type="password"
+        id="adminSecret"
+        placeholder="Enter admin secret"
+        autocomplete="off"
+      >
+
+
+      <label for="keyLabel">
+        Key Label
+      </label>
+
+      <input
+        type="text"
+        id="keyLabel"
+        placeholder="Example: Demo Key"
+      >
+
+
+      <label for="tokenBudget">
+        Token Budget
+      </label>
+
+      <input
+        type="number"
+        id="tokenBudget"
+        placeholder="5000"
+        value="5000"
+        min="0"
+      >
+
+
+      <button
+        id="createKeyBtn"
+        type="button"
+      >
+        Create Key
+      </button>
+
+
+      <div
+        id="createKeyStatus"
+        class="status"
+      ></div>
+
+
+      <pre
+        id="createKeyResult"
+        class="result"
+      ></pre>
+
+    </section>
+
+  </div>
+
+
+  <script src="/script.js"></script>
+
+</body>
+</html>
