@@ -31,8 +31,8 @@ See [`DECISIONS.md`](./DECISIONS.md) for the full request lifecycle, design rati
 ### Install
 
 ```bash
-git clone <this-repo-url>
-cd <repo-folder>
+git clone https://github.com/Gaurav77Kumar/llm-gateway
+cd <llm-gateway>
 npm install
 ```
 
@@ -53,7 +53,7 @@ GEMINI_MODEL=your_gemini_model_name
 ADMIN_SECRET=a_long_random_string
 ```
 
-`MONGODB_URI`, `GROQ_API_KEY`, `GEMINI_API_KEY`, `GEMINI_MODEL`, and `ADMIN_SECRET` are required — the server refuses to start if any are missing.
+`MONGODB_URI`, `GROQ_API_KEY`, `GEMINI_API_KEY`, `GEMINI_MODEL`, and `ADMIN_SECRET` are required — 
 
 ### Run
 
@@ -85,13 +85,13 @@ curl -X POST http://localhost:3000/keys \
 ### Chat completion
 
 ```
-POST /chat/completion
+POST /chat
 Headers: Authorization: Bearer <virtual api key>
 Body: { "messages": [{ "role": "user", "content": "Hello" }] }
 ```
 
 ```bash
-curl -X POST http://localhost:3000/chat/completion \
+curl -X POST http://localhost:3000/chat \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer sk-gw-..." \
   -d '{"messages": [{"role": "user", "content": "Hello!"}]}'
@@ -132,12 +132,6 @@ curl http://localhost:3000/usage \
 
 the fallback policy.
 
-## Known limitations
-
-- Fallback (Gemini) requests currently log `estimatedCost: 0` — pricing for the fallback model isn't configured yet.
-- System-role messages are dropped when a request falls back to Gemini.
-- No retry before falling back — any Groq error (including non-retryable 4xx errors) triggers an immediate fallback attempt.
-- A narrow race window exists between the budget pre-check and the atomic post-call enforcement — see `DECISIONS.md` for details.
 
 
 
