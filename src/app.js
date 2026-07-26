@@ -2,7 +2,7 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-import keyRoute from './routes/keyRoute.js';
+import keyRoute from './routes/KeyRoute.js';
 import chatRoute from './routes/chatRoute.js';
 import usageRoute from './routes/usageRoute.js';
 
