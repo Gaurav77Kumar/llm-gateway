@@ -1,5 +1,3 @@
-// src/middleware/adminAuth.js
-
 import crypto from 'crypto';
 import { env } from '../config/env.js';
 

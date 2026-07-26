@@ -1,5 +1,5 @@
 import express from 'express';
-import { chatCompletion } from '../controller/ChatController.js';
+import { chatCompletion } from '../controller/chatController.js';
 import authMiddleware from '../middleware/auth.js';
 import budgetMiddleware from '../middleware/budget.js';
 
