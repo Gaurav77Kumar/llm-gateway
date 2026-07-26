@@ -38,7 +38,6 @@ async function callGroq(messages) {
     const tokensIn = usage.prompt_tokens ?? 0;
     const tokensOut = usage.completion_tokens ?? 0;
 
-    // Calculate ourselves so budget accounting is consistent
     const totalTokens = tokensIn + tokensOut;
 
     return {
