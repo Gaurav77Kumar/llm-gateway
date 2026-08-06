@@ -1,7 +1,6 @@
 import VirtualKey from '../models/VirtualKey.js';
 import { generateApiKey, hashApiKey, getKeyPrefix, maskApiKey } from '../utils/apiKey.js';
 
-
 /**
 * Create a new virtual API key
 * POST /api/keys

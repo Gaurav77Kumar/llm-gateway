@@ -11,10 +11,7 @@ export function hashApiKey(apiKey) {
     if(!isValidApiKey(apiKey)) {
         throw new Error('Invalid API key format');
     }
-    return crypto
-         .createHash('sha256')
-         .update(apiKey)
-         .digest('hex');
+    return crypto.createHash('sha256').update(apiKey).digest('hex');
 }
 
 export function isValidApiKey(apiKey) {
@@ -27,7 +24,6 @@ export function getKeyPrefix(apiKey) {
     }
     return apiKey.slice(0,12);
 }
-
 
 export function maskApiKey(apiKey) {
     if(!isValidApiKey(apiKey)) {

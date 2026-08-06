@@ -1,7 +1,6 @@
 import VirtualKey from '../models/VirtualKey.js';
 import {hashApiKey, isValidApiKey } from '../utils/apiKey.js';
 
-
 const authMiddleware = async (req, res, next) => {
     try {
         const authHeader = req.headers.authorization;
@@ -22,7 +21,6 @@ const authMiddleware = async (req, res, next) => {
         }
 
         const keyHash = hashApiKey(apiKey);
-
         const virtualKey = await VirtualKey.findOne({ keyHash, isActive: true });
 
         if(!virtualKey) {

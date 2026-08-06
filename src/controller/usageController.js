@@ -3,11 +3,8 @@ import UsageLog from '../models/UsageLog.js';
 export const getUsage = async (req, res) => {
     try {
         const virtualKey = req.virtualKey;
-
         if (!virtualKey) {
-            return res.status(401).json({
-                error: 'Authentication required'
-            });
+            return res.status(401).json({error: 'Authentication required'});
         }
 
         // Aggregate all successful usage for this key
@@ -15,28 +12,16 @@ export const getUsage = async (req, res) => {
             {
                 $match: {
                     keyId: virtualKey._id,
-                    status: {
-                        $in: ['success', 'fallback_success']
-                    }
+                    status: { $in: ['success', 'fallback_success']}
                 }
             },
             {
                 $group: {
                     _id: null,
-
-                    totalRequests: { $sum: 1 },
-
-                    totalTokensIn: {
-                        $sum: '$tokensIn'
-                    },
-
-                    totalTokensOut: {
-                        $sum: '$tokensOut'
-                    },
-
-                    totalTokens: {
-                        $sum: '$totalTokens'
-                    },
+                    totalRequests:  { $sum: 1 },
+                    totalTokensIn:  { $sum: '$tokensIn' },
+                    totalTokensOut: { $sum: '$tokensOut' },
+                    totalTokens:    { $sum: '$totalTokens' },
 
                     totalEstimatedCost: {
                         $sum: '$estimatedCost'
@@ -70,11 +55,7 @@ export const getUsage = async (req, res) => {
             budget: {
                 tokenBudget: virtualKey.tokenBudget,
                 tokensUsed: virtualKey.tokensUsed,
-                tokensRemaining: Math.max(
-                    0,
-                    virtualKey.tokenBudget -
-                    virtualKey.tokensUsed
-                )
+                tokensRemaining: Math.max(0,virtualKey.tokenBudget -virtualKey.tokensUsed)
             }
         });
 

@@ -22,7 +22,6 @@ app.get('/health', (req, res) => {
     });
 });
 
-// API routes
 app.use('/api', keyRoute);
 app.use('/api', chatRoute);
 app.use('/api', usageRoute);

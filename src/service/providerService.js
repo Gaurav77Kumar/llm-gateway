@@ -6,12 +6,8 @@ const GROQ_MODEL = env.groqModel;
 
 const GEMINI_API_KEY = env.geminiApiKey;
 const GEMINI_MODEL = env.geminiModel;
-
-const GROQ_URL =
-    'https://api.groq.com/openai/v1/chat/completions';
-
+const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const TIMEOUT_MS = 15000;
-
 
 /**
  * Primary provider — Groq
@@ -99,32 +95,19 @@ async function callGemini(messages) {
     );
 
     const usage = response.data.usageMetadata ?? {};
-
-    const tokensIn =
-        usage.promptTokenCount ?? 0;
-
-    const tokensOut =
-        usage.candidatesTokenCount ?? 0;
-
-    const totalTokens =
-        usage.totalTokenCount ??
-        (tokensIn + tokensOut);
+    const tokensIn = usage.promptTokenCount ?? 0;
+    const tokensOut =  usage.candidatesTokenCount ?? 0;
+    const totalTokens =usage.totalTokenCount ??(tokensIn + tokensOut);
 
     return {
         provider: 'gemini',
-
         model: GEMINI_MODEL,
-
-        content:
-            response.data.candidates?.[0]
-                ?.content?.parts?.[0]?.text ?? '',
-
+        content: response.data.candidates?.[0]?.content?.parts?.[0]?.text ?? '',
         tokensIn,
         tokensOut,
         totalTokens,
     };
 }
-
 
 /**
  * Groq = primary
@@ -133,39 +116,21 @@ async function callGemini(messages) {
 export async function callLLM(messages) {
     try {
         const result = await callGroq(messages);
-
-        return {
-            ...result,
-            usedFallback: false
-        };
+        return { ...result, usedFallback: false};
 
     } catch (groqError) {
-
-        console.error(
-            'Groq failed:',
-            groqError.response?.data || groqError.message
-        );
+        console.error('Groq failed:',groqError.response?.data || groqError.message );
 
         try {
             const result = await callGemini(messages);
-
-            return {
-                ...result,
-                usedFallback: true
-            };
+            return {...result,usedFallback: true};
 
         } catch (geminiError) {
 
-            console.error(
-                'Gemini failed:',
-                geminiError.response?.data || geminiError.message
-            );
+            console.error('Gemini failed:',geminiError.response?.data || geminiError.message);
 
-            const error =
-                new Error('Both Groq and Gemini calls failed');
-
+            const error = new Error('Both Groq and Gemini calls failed');
             error.statusCode = 503;
-
             throw error;
         }
     }

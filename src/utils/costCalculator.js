@@ -13,20 +13,11 @@ export function calculateEstimatedCost(
     const pricing = MODEL_PRICING[model];
 
     if (!pricing) {
-        console.warn(
-            `Pricing information for ${model} not configured. Cost recorded as 0.`
-        );
-
+        console.warn(`Pricing information for ${model} not configured. Cost recorded as 0.`);
         return 0;
     }
 
-    const inputCost =
-        (tokensIn / 1_000_000) *
-        pricing.inputPerMillion;
-
-    const outputCost =
-        (tokensOut / 1_000_000) *
-        pricing.outputPerMillion;
-
+    const inputCost = (tokensIn / 1_000_000) * pricing.inputPerMillion;
+    const outputCost =(tokensOut / 1_000_000) * pricing.outputPerMillion;
     return inputCost + outputCost;
 }

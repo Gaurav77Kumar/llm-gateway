@@ -7,7 +7,6 @@ const budgetMiddleware =  async (req, res, next) => {
         if (!virtualKey) {
             return res.status(401).json({ error: "Authentication required. VirtualKey not found." });
         }
-
         const key =  await VirtualKey.findById(virtualKey._id);
 
         if(!key || !key.isActive) {
@@ -15,10 +14,9 @@ const budgetMiddleware =  async (req, res, next) => {
         }
 
         const tokensRemaining = key.tokenBudget - key.tokensUsed;
-
         if (tokensRemaining <= 0) {
-            return res.status(403).json({
-                 error: "Budget exceeded." ,
+            return res.status(403).json({ 
+                error: "Budget exceeded." ,
                  message: 'Token budget exhausted',
                  budget: {
                     tokenBudget: key.tokenBudget,
@@ -41,15 +39,8 @@ Atomically record actual token usage after
 successful provider response. This ensures that the token usage is accurately tracked and prevents race conditions in concurrent
 */
 export const updateTokenUsage = async (keyId, tokensUsed) => {
-    if (
-        !keyId ||
-        !Number.isFinite(tokensUsed) ||
-        tokensUsed < 0
-    ) {
-        const error = new Error(
-            'Invalid parameters for updating token usage.'
-        );
-
+    if ( !keyId || !Number.isFinite(tokensUsed) || tokensUsed < 0) {
+        const error = new Error('Invalid parameters for updating token usage.');
         error.statusCode = 400;
         throw error;
     }
@@ -82,7 +73,6 @@ export const updateTokenUsage = async (keyId, tokensUsed) => {
     // Query didn't match:
     // key missing OR requested usage would exceed budget
     if (!updatedKey) {
-
         const keyExists = await VirtualKey.exists({
             _id: keyId
         });
@@ -97,14 +87,10 @@ export const updateTokenUsage = async (keyId, tokensUsed) => {
         }
 
         // Key exists, therefore atomic budget condition failed
-        const error = new Error(
-            'Token budget would be exceeded.'
-        );
-
+        const error = new Error('Token budget would be exceeded.');
         error.statusCode = 402;
         throw error;
     }
-
     return updatedKey;
 };
 export default budgetMiddleware;

@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 
-
 const usageLogSchema = new mongoose.Schema({
     keyId: {
         type: mongoose.Schema.Types.ObjectId,

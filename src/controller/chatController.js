@@ -8,30 +8,20 @@ export const chatCompletion = async (req, res) => {
     const virtualKey = req.virtualKey;
 
     if (!virtualKey) {
-        return res.status(401).json({
-            error: 'Authentication required'
-        });
+        return res.status(401).json({error: 'Authentication required'});
     }
 
     const { messages } = req.body;
 
     if (!Array.isArray(messages) || messages.length === 0) {
-        return res.status(400).json({
-            error: '"messages" must be a non-empty array'
-        });
+        return res.status(400).json({error: '"messages" must be a non-empty array'});
     }
 
     const validMessages = messages.every(
-        (message) =>
-            ['system', 'user', 'assistant'].includes(message.role) &&
-            typeof message.content === 'string' &&
-            message.content.trim() !== ''
-    );
+        (message) =>['system', 'user', 'assistant'].includes(message.role) && typeof message.content === 'string' && message.content.trim() !== '' );
 
     if (!validMessages) {
-        return res.status(400).json({
-            error: 'Each message must have a valid role and content'
-        });
+        return res.status(400).json({error: 'Each message must have a valid role and content'});
     }
 
     let result = null;
@@ -49,10 +39,7 @@ export const chatCompletion = async (req, res) => {
         );
 
         // 3. Atomically update budget
-        const updatedKey = await updateTokenUsage(
-            virtualKey._id,
-            result.totalTokens
-        );
+        const updatedKey = await updateTokenUsage( virtualKey._id, result.totalTokens );
 
         // 4. Store successful usage
         await UsageLog.create({
